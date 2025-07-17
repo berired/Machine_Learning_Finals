@@ -6,6 +6,7 @@ import Profile from './pages/Profile'
 import Recommendations from './pages/Recommendations'
 import Dashboard from './pages/Dashboard'
 import './App.css'
+import Footer from './components/Footer'
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
           </Routes>
         </main>
+        <Footer/>
       </div>
     </Router>
   )

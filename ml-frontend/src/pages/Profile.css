@@ -1,57 +1,64 @@
 .profile {
-  max-width: 100%;
-  margin: 0;
-  padding: 0 var(--spacing-md);
+  padding: 2rem 1rem;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 90vw;
+  margin: 0 auto;
 }
 
 .profile-header {
   text-align: center;
-  margin-bottom: var(--spacing-xl);
+  margin-bottom: 2rem;
+  width: 100%;
+  padding: var(--spacing-lg) 0;
 }
 
 .profile-header h1 {
   margin-bottom: var(--spacing-sm);
+  margin-top: 2.5rem;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
 }
 
 .profile-header p {
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   color: var(--text-secondary);
+  max-width: 60ch;
+  margin: 0 auto;
+  line-height: 1.5;
 }
 
 .profile-form {
   background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: var(--border-radius);
-  padding: var(--spacing-lg);
-  box-shadow: var(--shadow);
-  max-width: 1000px;
+  border: none;
+  border-radius: calc(var(--border-radius) * 1.5);
+  padding: var(--spacing-xl);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  max-width: 90vw;
   margin: 0 auto;
+  backdrop-filter: blur(10px);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 6rem;
 }
 
-/* Large Screen Support for Profile Form */
-@media (min-width: 1400px) {
-  .profile-form {
-    max-width: 1200px;
-    padding: var(--spacing-xl);
-  }
+.profile-form:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 40px rgba(0, 0, 0, 0.15);
 }
 
-@media (min-width: 1600px) {
-  .profile-form {
-    max-width: 1400px;
-  }
-}
 
-@media (min-width: 1920px) {
-  .profile-form {
-    max-width: 1600px;
-  }
-}
 
 .form-section {
-  margin-bottom: var(--spacing-lg);
-  padding-bottom: var(--spacing-md);
-  border-bottom: 1px solid var(--border-color);
+  margin-bottom: var(--spacing-xl);
+  padding-bottom: var(--spacing-lg);
+  border-bottom: 1px solid color-mix(in srgb, var(--border-color) 50%, transparent);
 }
 
 .form-section:last-of-type {
@@ -62,77 +69,73 @@
 .form-section h3 {
   color: var(--primary-green);
   margin-bottom: var(--spacing-md);
-  font-size: 1.3rem;
+  font-size: 1.4rem;
+  font-weight: 600;
   display: flex;
   align-items: center;
+  letter-spacing: -0.01em;
+  text-align: left; /* Ensure section headers are left-aligned */
 }
 
 .form-section h3::before {
   content: '';
-  width: 4px;
-  height: 20px;
+  width: 5px;
+  height: 24px;
   background: var(--primary-green);
   margin-right: var(--spacing-sm);
-  border-radius: 2px;
+  border-radius: 3px;
+  transition: background 0.3s ease;
 }
 
 .form-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: var(--spacing-lg);
-}
-
-/* Large Screen Grid Support */
-@media (min-width: 1400px) {
-  .form-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--spacing-xl);
-  }
-}
-
-@media (min-width: 1600px) {
-  .form-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--spacing-xl);
-  }
-}
-
-@media (min-width: 1920px) {
-  .form-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: calc(var(--spacing-xl) * 1.5);
-  }
+  grid-template-columns: repeat(3, 1fr);
+  gap: calc(var(--spacing-lg) * 1.2);
+  align-items: start;
+  justify-items: center; /* Center grid items horizontally */
 }
 
 .form-group {
-  margin-bottom: 0;
+  margin-bottom: var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center form group contents */
+  width: 100%;
+  max-width: 300px; /* Limit width for better centering */
 }
 
 .form-group label {
-  font-weight: 600;
+  font-weight: 500;
   color: var(--text-primary);
   margin-bottom: var(--spacing-xs);
   display: block;
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
+  text-align: center; /* Center labels */
+  width: 100%;
 }
 
 .form-group input,
 .form-group select {
   width: 100%;
-  padding: var(--spacing-sm);
+  padding: calc(var(--spacing-sm) * 1.2);
   border: 2px solid var(--border-color);
-  border-radius: var(--border-radius);
+  border-radius: calc(var(--border-radius) * 1.2);
   background: var(--bg-dark);
   color: var(--text-primary);
   font-family: inherit;
   font-size: 1rem;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+  box-sizing: border-box; /* Ensure padding is included in width calculation */
 }
 
 .form-group input:focus,
 .form-group select:focus {
   outline: none;
   border-color: var(--primary-green);
-  box-shadow: 0 0 0 3px rgba(0, 255, 136, 0.1);
+  box-shadow: 0 0 0 4px rgba(0, 255, 136, 0.15);
+  background: color-mix(in srgb, var(--bg-dark) 90%, var(--primary-green) 10%);
 }
 
 .form-group input[type="number"] {
@@ -148,6 +151,11 @@
 
 .form-group select {
   cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23ffffff' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right var(--spacing-sm) center;
+  padding-right: calc(var(--spacing-sm) * 2.5); /* Add extra padding for dropdown arrow */
 }
 
 .form-group select option {
@@ -156,26 +164,27 @@
 }
 
 .message {
-  padding: var(--spacing-sm) var(--spacing-md);
-  border-radius: var(--border-radius);
-  margin-bottom: var(--spacing-md);
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border-radius: calc(var(--border-radius) * 1.2);
+  margin-bottom: var(--spacing-lg);
   font-weight: 500;
+  transition: all 0.3s ease;
 }
 
 .message.success {
-  background: rgba(0, 255, 136, 0.1);
+  background: rgba(0, 255, 136, 0.15);
   border: 1px solid var(--primary-green);
   color: var(--primary-green);
 }
 
 .message.warning {
-  background: rgba(255, 193, 7, 0.1);
+  background: rgba(255, 193, 7, 0.15);
   border: 1px solid #ffc107;
   color: #ffc107;
 }
 
 .message.error {
-  background: rgba(220, 53, 69, 0.1);
+  background: rgba(220, 53, 69, 0.15);
   border: 1px solid #dc3545;
   color: #dc3545;
 }
@@ -183,38 +192,77 @@
 .form-actions {
   display: flex;
   justify-content: center;
-  margin-top: var(--spacing-lg);
+  gap: var(--spacing-md);
+  margin-top: calc(var(--spacing-lg) * 1.5);
 }
 
 .form-actions .btn {
-  min-width: 200px;
+  min-width: 15ch;
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border-radius: calc(var(--border-radius) * 1.2);
+  font-weight: 600;
+  transition: all 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: var(--spacing-xs);
 }
 
+.form-actions .btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
 .form-actions .btn:disabled {
-  opacity: 0.6;
+  opacity: 0.65;
   cursor: not-allowed;
+  transform: none;
 }
 
 .form-actions .btn .spinner {
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
   border: 2px solid transparent;
   border-top: 2px solid currentColor;
   border-radius: 50%;
-  animation: spin 1s linear infinite;
+  animation: spin 0.8s linear infinite;
+}
+
+/* Additional alignment fixes for specific layouts */
+.form-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: calc(var(--spacing-lg) * 1.2);
+  align-items: start;
+}
+
+.form-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: calc(var(--spacing-lg) * 1.2);
+  align-items: start;
 }
 
 /* Responsive Design */
+@media (max-width: 1024px) {
+  .form-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .form-grid-3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 @media (max-width: 768px) {
   .profile-form {
     padding: var(--spacing-lg);
+    border-radius: var(--border-radius);
   }
   
-  .form-grid {
+  .form-grid,
+  .form-grid-2,
+  .form-grid-3 {
     grid-template-columns: 1fr;
     gap: var(--spacing-md);
   }
@@ -236,5 +284,13 @@
   
   .form-actions .btn {
     width: 100%;
+    min-width: 0;
   }
 }
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
