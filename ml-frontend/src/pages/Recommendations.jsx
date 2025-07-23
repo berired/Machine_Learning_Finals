@@ -26,12 +26,14 @@ const Recommendations = () => {
 
     try {
       const response = await axios.post('http://localhost:5000/api/recommendations', userProfile)
-      setRecommendations(response.data.data)
+      if (response.data && response.data.data) {
+        setRecommendations(response.data.data)
+      } else {
+        throw new Error('Invalid backend response. Falling back to mock data.')
+      }
     } catch (error) {
-      // Fallback to mock data if backend is not available
-      const mockRecommendations = generateMockRecommendations(userProfile)
-      setRecommendations(mockRecommendations)
-      console.log('Using mock data as backend is not available')
+      console.warn('Backend unavailable or returned error. Using mock data.')
+      setRecommendations(generateMockRecommendations(userProfile))
     } finally {
       setIsLoading(false)
     }
@@ -58,11 +60,16 @@ const Recommendations = () => {
           investment_products: [
             {
               id: 'invest_001',
-              name: riskLevel === 'low' ? 'Conservative Bond Fund' : 
-                     riskLevel === 'medium' ? 'Index Fund Portfolio' : 'Growth Stock ETF',
+              name:
+                riskLevel === 'low'
+                  ? 'Conservative Bond Fund'
+                  : riskLevel === 'medium'
+                  ? 'Index Fund Portfolio'
+                  : 'Growth Stock ETF',
               category: 'investment',
               risk_level: riskLevel,
-              expected_return: riskLevel === 'low' ? 4.5 : riskLevel === 'medium' ? 7.0 : 10.0,
+              expected_return:
+                riskLevel === 'low' ? 4.5 : riskLevel === 'medium' ? 7.0 : 10.0,
               score: 0.89,
               description: `Investment option matching your ${riskLevel} risk tolerance`,
               features: ['Professional management', 'Diversified portfolio'],
@@ -91,13 +98,13 @@ const Recommendations = () => {
         cluster_id: 2,
         cluster_description: profile.age < 35 ? 'Young Professional Saver' : 'Mid-Career Builder',
         typical_characteristics: [
-          `Age ${profile.age-5}-${profile.age+5}`,
+          `Age ${profile.age - 5}-${profile.age + 5}`,
           profile.income < 75000 ? 'Moderate income' : 'High income',
           'Building wealth'
         ]
       },
       insights: {
-        financial_health_score: Math.min(85, Math.max(40, 60 + (profile.savings_rate * 100))),
+        financial_health_score: Math.min(85, Math.max(40, 60 + profile.savings_rate * 100)),
         risk_assessment: `Your ${riskLevel} risk tolerance is appropriate for your profile`,
         key_recommendations: [
           'Continue building emergency fund',
@@ -108,18 +115,15 @@ const Recommendations = () => {
     }
   }
 
-  const formatCurrency = (amount) => {
-    return new Intl.NumberFormat('en-US', {
+  const formatCurrency = (amount) =>
+    new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'USD',
       minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
+      maximumFractionDigits: 0
     }).format(amount)
-  }
 
-  const formatPercentage = (value) => {
-    return `${value.toFixed(1)}%`
-  }
+  const formatPercentage = (value) => `${value.toFixed(1)}%`
 
   return (
     <div className="recommendations">
@@ -131,7 +135,9 @@ const Recommendations = () => {
           {!userProfile ? (
             <div className="no-profile">
               <p>Please complete your profile to get personalized recommendations.</p>
-              <a href="/profile" className="btn">Complete Profile</a>
+              <a href="/profile" className="btn">
+                Complete Profile
+              </a>
             </div>
           ) : (
             <button onClick={fetchRecommendations} className="btn" disabled={isLoading}>
@@ -141,11 +147,7 @@ const Recommendations = () => {
         </div>
       </div>
 
-      {error && (
-        <div className="error-message">
-          {error}
-        </div>
-      )}
+      {error && <div className="error-message">{error}</div>}
 
       {isLoading && (
         <div className="loading">
@@ -164,9 +166,9 @@ const Recommendations = () => {
               <div className="score-label">out of 100</div>
             </div>
             <div className="score-bar">
-              <div 
-                className="score-fill" 
-                style={{width: `${recommendations.insights.financial_health_score}%`}}
+              <div
+                className="score-fill"
+                style={{ width: `${recommendations.insights.financial_health_score}%` }}
               ></div>
             </div>
           </div>
@@ -198,7 +200,9 @@ const Recommendations = () => {
                   </div>
                   <div className="product-details">
                     <div className="expected-return">
-                      <span className="return-value">{formatPercentage(product.expected_return)}</span>
+                      <span className="return-value">
+                        {formatPercentage(product.expected_return)}
+                      </span>
                       <span className="return-label">Expected Return</span>
                     </div>
                     <div className="match-score">
@@ -230,7 +234,9 @@ const Recommendations = () => {
                   </div>
                   <div className="product-details">
                     <div className="expected-return">
-                      <span className="return-value">{formatPercentage(product.expected_return)}</span>
+                      <span className="return-value">
+                        {formatPercentage(product.expected_return)}
+                      </span>
                       <span className="return-label">Expected Return</span>
                     </div>
                     <div className="match-score">
@@ -259,32 +265,15 @@ const Recommendations = () => {
             <h3>Recommended Budget Strategy</h3>
             <div className="strategy-card">
               <h4>{recommendations.recommendations.budgeting_strategy.strategy_name}</h4>
-              
               <div className="allocation-grid">
-                <div className="allocation-item">
-                  <span className="allocation-label">Emergency Fund</span>
-                  <span className="allocation-value">
-                    {formatCurrency(recommendations.recommendations.budgeting_strategy.recommended_allocation.emergency_fund)}
-                  </span>
-                </div>
-                <div className="allocation-item">
-                  <span className="allocation-label">Monthly Savings</span>
-                  <span className="allocation-value">
-                    {formatCurrency(recommendations.recommendations.budgeting_strategy.recommended_allocation.savings / 12)}
-                  </span>
-                </div>
-                <div className="allocation-item">
-                  <span className="allocation-label">Investments</span>
-                  <span className="allocation-value">
-                    {formatCurrency(recommendations.recommendations.budgeting_strategy.recommended_allocation.investments / 12)}
-                  </span>
-                </div>
-                <div className="allocation-item">
-                  <span className="allocation-label">Debt Payment</span>
-                  <span className="allocation-value">
-                    {formatCurrency(recommendations.recommendations.budgeting_strategy.recommended_allocation.debt_payment / 12)}
-                  </span>
-                </div>
+                {Object.entries(
+                  recommendations.recommendations.budgeting_strategy.recommended_allocation
+                ).map(([key, value]) => (
+                  <div className="allocation-item" key={key}>
+                    <span className="allocation-label">{key.replace('_', ' ')}</span>
+                    <span className="allocation-value">{formatCurrency(value / 12)}</span>
+                  </div>
+                ))}
               </div>
 
               <div className="tips-section">

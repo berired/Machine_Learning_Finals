@@ -6,17 +6,17 @@ const Dashboard = () => {
   const [userProfile, setUserProfile] = useState(null)
   const [systemStatus, setSystemStatus] = useState(null)
   const [recommendations, setRecommendations] = useState(null)
+  const [advice, setAdvice] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
-    // Load user profile
     const savedProfile = localStorage.getItem('userProfile')
     if (savedProfile) {
       setUserProfile(JSON.parse(savedProfile))
     }
 
-    // Check system status
     checkSystemStatus()
+    initializeBackend()
   }, [])
 
   const checkSystemStatus = async () => {
@@ -29,6 +29,57 @@ const Dashboard = () => {
         message: 'Backend service is not available',
         backend_available: false
       })
+    }
+  }
+
+  const initializeBackend = async () => {
+    try {
+      const response = await axios.post('http://localhost:5000/api/initialize')
+      if (response.data.status === 'success') {
+        console.log('Backend initialized')
+        if (userProfile) {
+          fetchPersonalizedAdvice(userProfile)
+          fetchContentRecommendations(userProfile)
+        }
+      } else {
+        console.warn('Backend initialization failed:', response.data.message)
+      }
+    } catch (error) {
+      console.error('Error initializing backend:', error)
+    }
+  }
+
+  const fetchPersonalizedAdvice = async (profile) => {
+    setIsLoading(true)
+    try {
+      const response = await axios.post('http://localhost:5000/api/advice', {
+        user_profile: profile,
+        use_collaborative: true
+      })
+      if (response.data.status === 'success') {
+        setAdvice(response.data.data)
+      } else {
+        console.warn('Failed to get advice:', response.data.message)
+      }
+    } catch (error) {
+      console.error('Error fetching advice:', error)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const fetchContentRecommendations = async (profile) => {
+    try {
+      const response = await axios.post('http://localhost:5000/api/recommendations/content', {
+        user_profile: profile
+      })
+      if (response.data.status === 'success') {
+        setRecommendations(response.data.data)
+      } else {
+        console.warn('Failed to get recommendations:', response.data.message)
+      }
+    } catch (error) {
+      console.error('Error fetching recommendations:', error)
     }
   }
 
@@ -222,6 +273,23 @@ const Dashboard = () => {
               </div>
             </div>
           </div>
+        </div>
+      )}
+
+      {/* Personalized Advice Section */}
+      {isLoading && <p>Loading personalized advice...</p>}
+      {advice && (
+        <div className="advice-section">
+          <h2>Personalized Financial Advice</h2>
+          <pre>{JSON.stringify(advice, null, 2)}</pre>
+        </div>
+      )}
+
+      {/* Content Recommendations Section */}
+      {recommendations && (
+        <div className="recommendations-section">
+          <h2>Content Recommendations</h2>
+          <pre>{JSON.stringify(recommendations, null, 2)}</pre>
         </div>
       )}
 
