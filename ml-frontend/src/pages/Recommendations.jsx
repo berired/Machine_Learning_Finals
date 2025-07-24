@@ -123,20 +123,22 @@ const Recommendations = () => {
 
   return (
     <div className="recommendations">
-      <div className="recommendations-header">
-        <h1>Personalized Recommendations</h1>
-        <p>AI-powered financial advice tailored to your profile</p>
-        
-        {!userProfile ? (
-          <div className="no-profile">
-            <p>Please complete your profile to get personalized recommendations.</p>
-            <a href="/profile" className="btn">Complete Profile</a>
-          </div>
-        ) : (
-          <button onClick={fetchRecommendations} className="btn" disabled={isLoading}>
-            {isLoading ? 'Generating Recommendations...' : 'Get Recommendations'}
-          </button>
-        )}
+      <div className="recommendations-content">
+        <div className="recommendations-header">
+          <h1>Personalized Recommendations</h1>
+          <p>AI-powered financial advice tailored to your profile</p>
+
+          {!userProfile ? (
+            <div className="no-profile">
+              <p>Please complete your profile to get personalized recommendations.</p>
+              <a href="/profile" className="btn">Complete Profile</a>
+            </div>
+          ) : (
+            <button onClick={fetchRecommendations} className="btn" disabled={isLoading}>
+              {isLoading ? 'Generating Recommendations...' : 'Get Recommendations'}
+            </button>
+          )}
+        </div>
       </div>
 
       {error && (
