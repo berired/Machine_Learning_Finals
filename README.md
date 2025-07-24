@@ -38,13 +38,13 @@ This project provides a web-based platform built with **React (frontend)** and *
 
 ## Installation
 
-# 1. Clone the Repository
+### 1. Clone the Repository
 ```
 bash
 git clone https://github.com/your-username/finadvisor-ai.git
 cd finadvisor-ai
 ```
-# 2. Setup Backend
+### 2. Setup Backend
 ```
 cd back-end
 python -m venv venv        # (Optional but recommended)
@@ -55,30 +55,31 @@ pip install -r requirements.txt
 python app.py
 ```
 The backend runs on http://localhost:5000
-# 3. Setup Frontend
+### 3. Setup Frontend
 ```
 cd ../front-end
 npm install
 npm run dev
 ```
+
 The frontend runs on http://localhost:5173 (Vite default)
 ---
-### Usage
+## Usage
 1. Go to http://localhost:5173
 2. Create your financial profile.
 3. View your dashboard for financial insights.
 4. Generate AI-powered recommendations.
 ---
-### Known Issues
+## Known Issues
 pip install numpy may fail with Python 3.12. Use Python 3.11 or install wheels:
 ```
 pip install numpy==1.24.3 --only-binary :all:
 ```
 ---
-### License
+## License
 MIT License – Free to use and modify.
 ---
-### Contributing
+## Contributing
 Pull requests are welcome. For major changes, please open an issue first.
 
 
