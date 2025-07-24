@@ -1,0 +1,19 @@
+**SmartFinance** is is a comprehensive project featuring both a backend API and a modern frontend interface. The backend provides financial advisory and personalized recommendations using collaborative and content-based machine learning models, while the frontend offers an interactive dashboard for users to explore financial insights and recommendations.
+
+# Instalation Guide
+
+## Backend Setup
+- Navigate to the backend
+cd back-end
+- Install Python dependencies
+pip install -r requirements.txt
+- Run API server
+python api_server.py
+
+## Frontend Setup
+- Navigate to the frontend
+cd ml-frontend
+- Install dependencies
+npm install
+- Start development server
+npm run dev
