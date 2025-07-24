@@ -18,7 +18,6 @@ const Profile = () => {
   const [messageType, setMessageType] = useState('')
 
   useEffect(() => {
-    // Load existing profile if available
     const savedProfile = localStorage.getItem('userProfile')
     if (savedProfile) {
       setFormData(JSON.parse(savedProfile))
@@ -39,26 +38,23 @@ const Profile = () => {
     setMessage('')
 
     try {
-      // Convert string inputs to numbers
       const profileData = {
         ...formData,
         age: parseInt(formData.age),
         income: parseFloat(formData.income),
         monthly_expenses: parseFloat(formData.monthly_expenses),
-        savings_rate: parseFloat(formData.savings_rate) / 100, // Convert percentage to decimal
-        debt_to_income: parseFloat(formData.debt_to_income) / 100 // Convert percentage to decimal
+        savings_rate: parseFloat(formData.savings_rate) / 100,
+        debt_to_income: parseFloat(formData.debt_to_income) / 100
       }
 
-      // Save to localStorage
       localStorage.setItem('userProfile', JSON.stringify(profileData))
 
-      // Try to save to backend
       try {
-        await axios.post('http://localhost:5000/api/profile', profileData)
+        const response = await axios.post('http://localhost:5000/api/profile', profileData)
         setMessage('Profile saved successfully!')
         setMessageType('success')
       } catch (error) {
-        console.log('Backend not available, profile saved locally')
+        console.error('Backend not available or error:', error)
         setMessage('Profile saved locally. Backend connection not available.')
         setMessageType('warning')
       }
